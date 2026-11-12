@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}EPM{% endblock %} · Examination Portal</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+{% if current_user.is_authenticated %}<div class="shell"><nav class="side" aria-label="Main"><b>EPM</b>
+{% if current_user.role=='admin' %}<a href="{{url_for('admin_dash')}}">Dashboard</a><a href="{{url_for('admin_courses')}}">Courses</a><a href="{{url_for('admin_exams')}}">Examinations</a><a href="{{url_for('admin_examiners')}}">Examiners</a><a href="{{url_for('admin_students')}}">Students</a><a href="{{url_for('admin_bookings')}}">Bookings</a>
+{% elif current_user.role=='examiner' %}<a href="{{url_for('ex_dash')}}">Dashboard</a><a href="{{url_for('ex_slots')}}">My slots</a><a href="{{url_for('ex_eval')}}">Evaluate</a><a href="{{url_for('examiner_profile')}}">My profile</a>
+{% else %}<a href="{{url_for('st_dash')}}">Dashboard</a><a href="{{url_for('st_exams')}}">Find exams</a><a href="{{url_for('st_results')}}">Results</a>{% endif %}</nav>
+<main><header class="top"><span>{{current_user.name}} <span class="tag">{{current_user.role}}</span></span><form method="post" action="{{url_for('logout')}}">{{csrf()}}<button class="alt">Log out</button></form></header><div class="content">
+{% for c,m in get_flashed_messages(with_categories=true) %}<div class="flash {{c}}" role="alert">{{m}}</div>{% endfor %}{% block body %}{% endblock %}</div></main></div>
+{% else %}{% block anon %}{% endblock %}{% endif %}</body></html>

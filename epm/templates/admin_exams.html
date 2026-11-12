@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block body %}<h1>Examinations</h1>
+<div class="card"><form method="post" class="form-inline">{{csrf()}}<div><label>Course</label><select name="course_id" required>{% for c in courses %}<option value="{{c.id}}">{{c.code}} {{c.name}}</option>{% endfor %}</select></div>
+<div><label>Name</label><input name="name" required></div><div><label>Type</label><select name="type">{% for t in types %}<option>{{t}}</option>{% endfor %}</select></div>
+<div><label>Slot creation from</label><input type="date" name="slot_start" required></div><div><label>to</label><input type="date" name="slot_end" required></div>
+<div><label>Booking from</label><input type="date" name="book_start" required></div><div><label>to</label><input type="date" name="book_end" required></div>
+<div><label>Cancel ≥ days before</label><input type="number" name="cancel_days" value="1" min="0" style="width:80px"></div><button>Create</button></form></div>
+<form class="form-inline"><input name="q" value="{{q}}" placeholder="ID, course or name" aria-label="Search"><button class="alt">Search</button></form><br>
+<div class="card">{% if ex %}<table><tr><th>ID</th><th>Name</th><th>Course</th><th>Type</th><th>Status</th><th></th></tr>{% for e in ex %}<tr><td>{{e.id}}</td><td>{{e.name}}</td><td>{{e.course.code}}</td><td>{{e.type}}</td><td><span class="tag">{{e.status}}</span>{% if e.published %} <span class="tag">Published</span>{% endif %}</td><td><a href="{{url_for('admin_exam',i=e.id)}}">Manage</a></td></tr>{% endfor %}</table>{% else %}<p>No examinations yet. Create one above.</p>{% endif %}</div>{% endblock %}

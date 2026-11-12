@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block body %}<h1>Students</h1>
+<form class="form-inline"><input name="q" value="{{q}}" placeholder="Search name, email or student ID" aria-label="Search students"><button class="alt">Search</button></form><br>
+<div class="card">{% if students %}<table><tr><th>Student ID</th><th>Name</th><th>Email</th><th>Status</th><th>Registered</th><th>Bookings</th></tr>
+{% for u in students %}<tr><td>{{u.id}}</td><td>{{u.name}}</td><td>{{u.email}}</td><td><span class="tag">{{u.status}}</span></td><td>{{u.created.strftime('%d %b %Y') if u.created else '—'}}</td><td>{{u_bookings.get(u.id, 0) if u_bookings is defined else ''}}</td></tr>{% endfor %}</table>{% else %}<p>No students found.</p>{% endif %}</div>{% endblock %}

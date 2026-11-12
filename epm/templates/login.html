@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Sign in{% endblock %}
+{% block anon %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% set prefill = request.form.get('email', '') %}
+<div class="lp">
+
+  <aside class="lp-brand" aria-label="About the Examination Management Portal">
+    <div class="lp-logo">
+      <svg width="42" height="42" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="lp-lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F55E0"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs>
+        <rect width="40" height="40" rx="11" fill="url(#lp-lg)"/>
+        <path d="M11 14h10M11 20h7M11 26h6" stroke="#fff" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M20 24.5l4.2 4.2L31 19" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="lp-logo-text"><b>EPM</b><small>Examination Portal</small></span>
+    </div>
+
+    <div class="lp-pitch">
+      <h1>Examination Management Portal</h1>
+      <p>A smarter way to manage examinations, schedules and academic assessments.</p>
+    </div>
+
+    <div class="lp-stage" aria-hidden="true">
+      <div class="lp-card lp-slots">
+        <div class="lp-card-head"><span>Viva slots</span><small>3 available</small></div>
+        <div class="lp-slot lp-slot--booked"><time>10:00 – 11:00</time><span>Booked</span></div>
+        <div class="lp-slot"><time>11:00 – 12:00</time><span>2 seats left</span></div>
+        <div class="lp-slot lp-slot--full"><time>14:00 – 15:00</time><span>Full</span></div>
+      </div>
+      <div class="lp-card lp-rubric">
+        <div class="lp-card-head"><span>Rubric score</span><b>24<small>/30</small></b></div>
+        <div class="lp-crit"><span>Clarity</span><i style="--v:80%"></i><em>8</em></div>
+        <div class="lp-crit"><span>Technical depth</span><i style="--v:90%"></i><em>9</em></div>
+        <div class="lp-crit"><span>Questions</span><i style="--v:70%"></i><em>7</em></div>
+        <div class="lp-chip">Results published</div>
+      </div>
+    </div>
+
+    <ul class="lp-features">
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg>
+        <strong>Smart Examination Scheduling</strong>
+        <span>Examiners open slots, students book them, and clashes are caught for you.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/></svg>
+        <strong>Secure Role-Based Access</strong>
+        <span>Admins, examiners and students each see only their own workspace.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4h6v3H9z"/><path d="m9 14 2 2 4-4"/></svg>
+        <strong>Transparent Evaluation Management</strong>
+        <span>Rubric-based marks are locked on submission and released by the admin.</span>
+      </li>
+    </ul>
+
+    <p class="lp-foot lp-foot--brand"><span>EPM University Examination Portal</span><span>Authorised users only</span></p>
+  </aside>
+
+  <main class="lp-main" id="main">
+    <div class="lp-form">
+      <h2 class="lp-title">Welcome back</h2>
+      <p class="lp-sub">Sign in to access your examination dashboard.</p>
+
+      {% for c, m in get_flashed_messages(with_categories=true) %}
+      <div class="lp-alert lp-alert--{{ 'err' if c == 'err' else ('ok' if c == 'ok' else 'info') }}" role="{{ 'alert' if c == 'err' else 'status' }}">
+        {% if c == 'err' %}<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>
+        {% elif c == 'ok' %}<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+        {% else %}<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.01"/></svg>{% endif %}
+        <p>{{ m }}</p>
+      </div>
+      {% endfor %}
+
+      <form method="post" action="{{ url_for('login') }}" class="lp-formel">
+        {{ csrf() }}
+        <div class="lp-field">
+          <label for="lp-email">Email address</label>
+          <input id="lp-email" name="email" type="email" required autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="you@example.com" value="{{ prefill }}">
+        </div>
+        <div class="lp-field">
+          <label for="lp-password">Password</label>
+          <div class="lp-pw">
+            <input id="lp-password" name="password" type="password" required autocomplete="current-password" placeholder="Enter your password"{% if prefill %} autofocus{% endif %}>
+            <button type="button" class="lp-eye" id="lp-eye" hidden aria-controls="lp-password" aria-pressed="false" aria-label="Show password">
+              <svg class="i-show" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="i-hide" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A16.5 16.5 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 4.4-1.1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="lp-submit">Sign in</button>
+      </form>
+
+      <p class="lp-alt">New to EPM? <a href="{{ url_for('register') }}">Create a student or examiner account</a></p>
+      <p class="lp-note">Examiner accounts can sign in once an administrator approves them. Trouble signing in? Contact your administrator.</p>
+    </div>
+    <p class="lp-foot lp-foot--form"><span>EPM University Examination Portal</span><span>Authorised users only</span></p>
+  </main>
+</div>
+
+<script>
+/* Optional visual enhancement only: show/hide password. Sign-in itself is a plain HTML POST handled by Flask. */
+(function () {
+  var btn = document.getElementById('lp-eye'), pw = document.getElementById('lp-password');
+  if (!btn || !pw) return;
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var show = pw.type === 'password';
+    pw.type = show ? 'text' : 'password';
+    btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
+})();
+</script>
+{% endblock %}

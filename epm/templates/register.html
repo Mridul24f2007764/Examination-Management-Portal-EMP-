@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block anon %}<div class="auth"><section class="hero"><h1>Create your account</h1><p>Examiner accounts are reviewed by an administrator before first login.</p></section>
+<div class="box">{% for c,m in get_flashed_messages(with_categories=true) %}<div class="flash {{c}}" role="alert">{{m}}</div>{% endfor %}
+<form method="post">{{csrf()}}<label for="n">Full name</label><input id="n" name="name" required><label for="e">Email</label><input id="e" name="email" type="email" required>
+<label for="p">Password (8+ characters)</label><input id="p" name="password" type="password" minlength="8" required><label for="r">I am a</label><select id="r" name="role"><option value="student">Student</option><option value="examiner">Examiner</option></select>
+<p><button>Register</button> <a href="{{url_for('login')}}">Back to log in</a></p></form></div></div>{% endblock %}

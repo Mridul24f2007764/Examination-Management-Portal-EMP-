@@ -1,0 +1,30 @@
+EPM FINAL - CHANGE AND COMPLIANCE REPORT
+
+Changes made:
+- Added Admin student directory with search by student name, email, and ID.
+- Added Examiner profile fields (phone and department) and profile editing page.
+- Added backward-compatible SQLite ALTER TABLE upgrade for the new examiner fields.
+- Added server-side slot date checks against slot-creation and booking date windows.
+- Changed evaluation total to a weighted normalized score (0-100).
+- Corrected Admin pending-evaluation count to count submitted evaluations only for active bookings.
+- Added login, registration, and logout audit entries; existing management actions continue to log.
+- Added navigation links for Student directory and Examiner profile.
+- Updated README.
+
+Preserved:
+- Existing Flask application and routes.
+- SQLite database.
+- Existing login and dashboard templates/styles, except added navigation links.
+- Existing role-based authentication and CSRF protection.
+
+Verification:
+- Python syntax compilation: PASSED.
+- Automated pytest execution: NOT RUN TO COMPLETION. Test collection is blocked because Flask is not installed in this execution environment (ModuleNotFoundError: flask).
+- Full interactive browser/manual testing: NOT performed.
+
+Remaining verification / limitations:
+- Install dependencies with: python -m pip install -r requirements.txt
+- Then run: python -m pytest -v
+- Confirm weighted-score policy with the course instructor if rubric weight values are intended as percentages rather than relative weights.
+- PDF also requires a >5-page project report, ER diagram, AI/LLM declaration, and demo video/link. These are submission artifacts and are not generated inside the application ZIP.
+- Therefore, 100% compliance is NOT claimed until automated/manual tests and submission artifacts are completed.

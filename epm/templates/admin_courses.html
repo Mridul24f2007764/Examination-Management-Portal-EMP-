@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block body %}<h1>Courses</h1>
+<div class="card"><form method="post" class="form-inline">{{csrf()}}<div><label for="c">Code</label><input id="c" name="code" required></div><div><label for="n">Name</label><input id="n" name="name" required></div><div><label for="d">Description</label><input id="d" name="description"></div><button>Add course</button></form></div>
+<form class="form-inline"><input name="q" value="{{q}}" placeholder="Search code or name" aria-label="Search"><button class="alt">Search</button></form><br>
+<div class="card">{% if cs %}<table><tr><th>ID</th><th>Code</th><th>Name</th><th>Status</th><th></th></tr>{% for c in cs %}<tr><td>{{c.id}}</td><td>{{c.code}}</td><td>{{c.name}}<br><small>{{c.description}}</small></td><td>{{'Active' if c.active else 'Inactive'}}</td>
+<td><form method="post" action="{{url_for('course_act',i=c.id,act='toggle')}}" style="display:inline">{{csrf()}}<button class="alt">{{'Deactivate' if c.active else 'Activate'}}</button></form>
+<form method="post" action="{{url_for('course_act',i=c.id,act='delete')}}" style="display:inline" onsubmit="return confirm('Delete this course?')">{{csrf()}}<button class="del">Delete</button></form></td></tr>{% endfor %}</table>{% else %}<p>No courses found. Add one above.</p>{% endif %}</div>{% endblock %}

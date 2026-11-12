@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block body %}<h1>Admin dashboard</h1><div class="grid">{% for k,v in s.items() %}<div class="stat"><b>{{v}}</b>{{k}}</div>{% endfor %}</div>
+<div class="card"><h2>Evaluation progress</h2><canvas id="c" height="90"></canvas></div>
+<div class="card"><h2>Recent admin activity</h2>{% if audit %}<table>{% for a in audit %}<tr><td>{{a.at.strftime('%d %b %H:%M')}}</td><td>{{a.who}}</td><td>{{a.what}}</td></tr>{% endfor %}</table>{% else %}<p>No activity yet.</p>{% endif %}</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script><script>if(window.Chart){var d={{ s|tojson }};new Chart(document.getElementById('c'),{type:'bar',data:{labels:Object.keys(d),datasets:[{label:'Count',data:Object.values(d),backgroundColor:'#0f6b5c'}]},options:{plugins:{legend:{display:false}}}})}</script>{% endblock %}

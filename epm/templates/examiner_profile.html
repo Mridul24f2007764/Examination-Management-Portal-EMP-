@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block body %}<h1>My examiner profile</h1><div class="card"><form method="post">{{csrf()}}
+<label>Name</label><input value="{{current_user.name}}" disabled>
+<label>Email</label><input value="{{current_user.email}}" disabled>
+<label>Examiner ID</label><input value="{{current_user.id}}" disabled>
+<label for="phone">Contact number</label><input id="phone" name="phone" maxlength="30" value="{{current_user.phone or ''}}">
+<label for="department">Department</label><input id="department" name="department" maxlength="120" value="{{current_user.department or ''}}">
+<label>Status</label><input value="{{current_user.status}}" disabled>
+<button>Save profile</button></form></div>{% endblock %}
